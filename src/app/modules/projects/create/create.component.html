@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <h1>New Project</h1>
+  <hr>
+  <div class="row">
+    <div class="col-lg-4">
+      <form [formGroup]="form" (submit)="createProject()">
+        <mat-card>
+          <mat-card-content>
+            <app-material-input
+                [control]="form.controls.title"
+                label="Title"
+                class="full-width">
+            </app-material-input>
+
+
+            <app-material-textarea
+                [control]="form.controls.description"
+                label="Description"
+                class="full-width"
+                rows="5">
+            </app-material-textarea>
+
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary">Save</button>
+            <button type="button" routerLink="../" mat-raised-button color="basic">Cancel</button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

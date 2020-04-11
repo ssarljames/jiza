@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <h1>Projects
+        <a routerLink="create" mat-raised-button class="float-right">Create Project</a>
+    </h1>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+
+            <mat-card>
+                <mat-card-header>
+                    <div class="row m-0 w-100">
+                        <div class="col-md-9">
+                            <app-material-input icon="search" [control]="search" (onEnter)="fetchProjects()" label="Search"></app-material-input>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <mat-button-toggle-group #displayMode="matButtonToggleGroup" (valueChange)="changeDisplay($event)">
+
+                                <mat-button-toggle value="list" [checked]="tableMode" aria-selected aria-label="Text align center">
+                                    list
+                                </mat-button-toggle>
+
+                                <mat-button-toggle value="card" [checked]="!tableMode" aria-label="Text align left">
+                                    card
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                    </div>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="table-responsive" *ngIf="tableMode">
+                        <table class="table" style="min-width: 700px;">
+                            <thead>
+                                <th>Title</th>
+                                <th>Owner</th>
+                                <th>Members</th>
+                                <th>Created</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let project of projects">
+                                    <td>{{ project.title }}</td>
+                                    <td>{{ project.owner.fullname }}</td>
+                                    <td>
+                                        <span class="text-primary" *ngFor="let user of project.members_limited; let i = index">
+                                          {{ user.fullname }}{{ i < project.members_limited.length - 1 ? ',' : ''  }}
+                                        </span>
+                                        <span class="text-muted" *ngIf="project.members_count > project.members_limited.length">(+{{ project.members_count - project.members_limited.length }})</span>
+                                    </td>
+                                    <td>{{ project.created_at | parseDate | dfnsDistanceInWordsToNow }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div *ngIf="tableMode == false">
+        <div class="row">
+            <div class="col-lg-4 pb-2" *ngFor="let project of projects">
+                <app-project-card (click)="viewProject(project)" routerLinkActive="router-link-active" [project]="project" [currentUser]="currentUser"></app-project-card>
+            </div>
+        </div>
+    </div>
+</div>

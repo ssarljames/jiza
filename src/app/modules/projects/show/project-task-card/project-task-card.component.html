@@ -1,0 +1,14 @@
+<mat-card matRipple>
+    <mat-card-header>
+        <div mat-card-avatar class="mr-2">
+            <img src="/assets/images/profile.jpg" class="full-width" alt="">
+        </div>
+        <mat-card-title>{{ task.title }}</mat-card-title>
+        <mat-card-subtitle *ngIf="task.user">Assigned to {{ task.user?.fullname }}</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="!task.user">No assigned user</mat-card-subtitle>
+        <div class="list-spacer"></div>
+        <div>
+            <span>High</span> <br>
+        </div>
+    </mat-card-header>
+</mat-card>

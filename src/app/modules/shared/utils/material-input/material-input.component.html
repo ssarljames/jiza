@@ -1,0 +1,6 @@
+<mat-form-field [class]="class">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput [formControl]="control" (keyup)="keyup($event)" [type]="type" autocomplete="off" [placeholder]="placeholder">
+    <mat-icon matSuffix *ngIf="icon">{{ icon }}</mat-icon>
+    <mat-error *ngIf="control.errors">{{ control.errors.required ? 'Required' : control.errors[0] }}</mat-error>
+</mat-form-field>

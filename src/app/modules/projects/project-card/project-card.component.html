@@ -1,0 +1,23 @@
+<mat-card matRipple *ngIf="project && project.is_saved" class="project">
+    <mat-card-header>
+        <div mat-card-avatar class="mr-2">
+            <img src="/assets/images/profile.jpg" class="full-width" alt="">
+        </div>
+        <mat-card-title>{{ project.title | titlecase }}</mat-card-title>
+        <mat-card-subtitle *ngIf="project.owner">Created by: {{ project.owner.id == currentUser.id ? 'You' : project.owner.fullname }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <strong>Members:</strong>
+        <div class="d-inline" *ngIf="project.members_limited">
+            <span class="text-primary" *ngFor="let user of project.members_limited; let i = index">
+            {{ user.fullname }}{{ i < project.members_limited.length - 1 ? ',' : ''  }}
+          </span>
+            <span class="text-muted" *ngIf="project.members_count > project.members_limited.length">(+{{ project.members_count - project.members_limited.length }})</span>
+        </div>
+        <span class="text-muted" *ngIf="project.members_limited.length == 0"> None</span>
+        <br>
+        <strong>Created:</strong> {{ project.created_at | parseDate | dfnsDistanceInWordsToNow }}
+        <br> <br>
+        <strong>Description:</strong> {{ project.description }}
+    </mat-card-content>
+</mat-card>

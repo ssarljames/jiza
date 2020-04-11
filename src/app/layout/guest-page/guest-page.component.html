@@ -1,0 +1,55 @@
+<!--
+
+<br>
+
+<router-outlet></router-outlet> -->
+
+<div (swiperight)="openNav()" (swipeleft)="closeNav()">
+
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <button mat-icon-button *ngIf="isHandset" (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="mr-3">JIZA </h1>
+        <span class="menu-spacer"></span>
+
+        <a *ngFor="let link of links" [class]="{'d-none': isHandset}" mat-button [routerLink]="link.url" routerLinkActive="_active" [routerLinkActiveOptions]="{ exact: link.exact }">
+          {{ link.displayName }}
+        </a>
+
+
+            <div class="flex-spacer"></div>
+
+            <app-theme-picker title="Change Theme"></app-theme-picker>
+
+            <a mat-button (click)="signIn()">
+          Sign In
+      </a>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-sidenav-container>
+        <mat-sidenav [class]="{'d-none': !isHandset}" #sidenav [fixedInViewport]="false" role="dialog" mode="over" [opened]="false">
+            <mat-nav-list>
+
+                <a (click)="sidenav.close()"
+                  *ngFor="let link of links"
+                  [routerLink]="link.url"
+                  [routerLinkActiveOptions]="{ exact: link.exact }"
+                  mat-list-item class="menu-list-item" routerLinkActive="_active">
+                    <span>{{ link.displayName }}</span>
+                </a>
+
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div style="min-height: 85vh;" class="p-3">
+                <router-outlet></router-outlet>
+            </div>
+
+            <app-footer></app-footer>
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

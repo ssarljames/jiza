@@ -1,0 +1,40 @@
+<form [formGroup]="form">
+    <h1 mat-dialog-title>New Task for {{ project.title }}</h1>
+    <div mat-dialog-content>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <app-material-input icon="assignment" class="full-width" [control]="form.controls.title" label="Title"></app-material-input>
+            </div>
+
+            <div class="col-lg-4">
+                <app-material-select icon="assignment_ind" class="full-width" [control]="form.controls.user_id" placeholder="Assign To" [options]="project_members"></app-material-select>
+            </div>
+
+
+            <div class="col-lg-4">
+                <app-material-select icon="view_module" class="full-width" [control]="form.controls.project_module_id" placeholder="Module"></app-material-select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <br>
+                <!-- <app-material-textarea rows="5" class="full-width" [control]="form.controls.description" placeholder="Description"></app-material-textarea> -->
+                <ckeditor class="text-dark" [editor]="editor" [formControl]="form.controls.description"></ckeditor>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-2 col-sm-6">
+                <app-material-select icon="local_offer" class="full-width" [required]="true" [control]="form.controls.type" placeholder="Type" [options]="types"></app-material-select>
+            </div>
+            <div class="col-lg-2 col-sm-6">
+                <app-material-select class="full-width" [required]="true" [control]="form.controls.current_project_phase_id" placeholder="Status" [options]="phases"></app-material-select>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" [disabled]="form.invalid || form.dirty == false" type="button" (click)="save()"><mat-icon>save</mat-icon> {{ editMode ? 'Update' : 'Save' }}</button>
+        <button mat-button type="button" (click)="close()">Close</button>
+    </div>
+</form>

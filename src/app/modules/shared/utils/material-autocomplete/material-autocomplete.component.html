@@ -1,0 +1,20 @@
+<mat-form-field [class]="class" *ngIf="control">
+    <mat-label>{{ label }}</mat-label>
+
+    <input matInput type="text" *ngIf="selected" readonly [value]="selected" id="">
+
+    <button mat-button *ngIf="selected" matSuffix mat-icon-button aria-label="Clear" (click)="clearValue()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <input matInput *ngIf="!selected" type="text" autocomplete="off" [formControl]="search" [placeholder]="placeholder" [matAutocomplete]="auto">
+
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
+
+        <mat-option *ngFor="let option of options" [value]="option.value">
+            {{ option.label }}
+        </mat-option>
+    </mat-autocomplete>
+    <mat-icon matSuffix *ngIf="icon">{{ icon }}</mat-icon>
+    <mat-error *ngIf="control.errors">{{ control.errors.required ? 'Required' : control.errors[0] }}</mat-error>
+</mat-form-field>

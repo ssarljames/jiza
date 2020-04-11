@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>Task Detail</h1>
+<div mat-dialog-content>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-3">
+                Title
+                <br>
+                <h2>
+                    <mat-icon>assignment</mat-icon> {{ task.title }}</h2>
+            </div>
+            <div class="col-md-3">
+                Assigned To
+                <br>
+                <h2>
+                    <mat-icon>assignment_ind</mat-icon> {{ task.user ? task.user.fullname : 'None' }}</h2>
+            </div>
+            <div class="col-md-3">
+                Module
+                <br>
+                <h2>
+                    <mat-icon>view_module</mat-icon> {{ task.module ? task.module.title : 'None' }}</h2>
+            </div>
+            <div class="col-md-3">
+                Type
+                <br>
+                <h2>
+                    <mat-icon>local_offer</mat-icon> {{ task.typeLabel }}</h2>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <div>
+            <div [innerHTML]="task.description" *ngIf="loaded" class="ck-content"></div>
+            <mat-spinner *ngIf="loaded == false" [diameter]="40"></mat-spinner>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-3">
+                Curent Status
+                <br>
+                <h2><span class="mat-toolbar mat-primary p-1"><mat-icon>place</mat-icon> {{ task.current_phase?.description }}</span> </h2>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="edit()">Edit</button>
+    <button mat-button (click)="close()">Close</button>
+</div>

@@ -1,0 +1,191 @@
+    /* You can add global styles to this file, and also import other style files */
+    /* modal animation */
+    
+    body {
+        // background: #ccc;
+        height: unset !important;
+        width: unset !important;
+    }
+    
+    .modal-content {
+        animation-name: example;
+        animation-duration: 0.3s;
+    }
+    
+    @keyframes example {
+        0% {
+            transform: scale(0.5)
+        }
+        75% {
+            transform: scale(1.1)
+        }
+        100% {
+            transform: scale(1)
+        }
+    }
+    
+    html,
+    body {
+        height: 100%;
+    }
+    
+    body {
+        margin: 0;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+    
+    .full-width {
+        width: 100%;
+    }
+    
+    a {
+        text-decoration: none !important;
+    }
+    
+    table td {
+        vertical-align: middle;
+    }
+    
+    i {
+        vertical-align: middle !important;
+    }
+    
+    .mat-menu-panel {
+        padding: 0 10px 0 10px;
+    }
+    
+    h1 .fa {
+        margin-top: -4px;
+    }
+    
+    .mat-list-item-content .fa {
+        margin-top: -5px;
+        margin-right: 5px;
+        width: 100%;
+    }
+    
+    .mat-list-base .mat-list-item .mat-list-item-content,
+    .mat-list-base .mat-list-option .mat-list-item-content {
+        width: 100% !important;
+    }
+    
+    .mat-card-header-text {
+        margin: 0 !important;
+    }
+    
+    .mat-card {
+        margin: 5px 0;
+    }
+    
+    table.mat-table {
+        width: 100% !important;
+        display: table;
+    }
+    
+    .mat-elevation-z6,
+    mat-toolbar,
+    app-top-nav {
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+    }
+    
+    mat-toolbar {
+        position: sticky;
+        position: -webkit-sticky;
+        /* For macOS/iOS Safari */
+        top: 0;
+        /* Sets the sticky toolbar to be on top */
+        z-index: 1000;
+        /* Ensure that your app's content doesn't overlap the toolbar */
+    }
+    
+    mat-icon {
+        vertical-align: middle;
+        margin-bottom: 4px;
+    }
+    
+    .jumbotron {
+        background-color: transparent;
+    }
+    
+    .col,
+    .col-1,
+    .col-10,
+    .col-11,
+    .col-12,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-auto,
+    .col-lg,
+    .col-lg-1,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-lg-auto,
+    .col-md,
+    .col-md-1,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-md-auto,
+    .col-sm,
+    .col-sm-1,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-auto,
+    .col-xl,
+    .col-xl-1,
+    .col-xl-10,
+    .col-xl-11,
+    .col-xl-12,
+    .col-xl-2,
+    .col-xl-3,
+    .col-xl-4,
+    .col-xl-5,
+    .col-xl-6,
+    .col-xl-7,
+    .col-xl-8,
+    .col-xl-9,
+    .col-xl-auto {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    
+    .mat-chip-list-wrapper {
+        display: inline-block !important;
+    }
+    
+    .list-spacer {
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+    }
