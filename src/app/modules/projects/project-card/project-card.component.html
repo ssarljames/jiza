@@ -1,7 +1,7 @@
 <mat-card matRipple *ngIf="project && project.is_saved" class="project">
     <mat-card-header>
         <div mat-card-avatar class="mr-2">
-            <img src="/assets/images/profile.jpg" class="full-width" alt="">
+            <img src="/assets/images/profile.png" class="full-width" alt="">
         </div>
         <mat-card-title>{{ project.title | titlecase }}</mat-card-title>
         <mat-card-subtitle *ngIf="project.owner">Created by: {{ project.owner.id == currentUser.id ? 'You' : project.owner.fullname }}</mat-card-subtitle>

@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { ProjectAddAction, ProjectUpdateAction, ProjectLoadAction, ProjectRemoveAction } from '../../store/project/actions';
 import { ProjectTask } from 'src/app/models/project-task/project-task';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ProjectPhase } from 'src/app/models/project-phase/project-phase';
 
 
 class ProjectAction implements ResourceAction<Project> {
@@ -15,20 +17,20 @@ class ProjectAction implements ResourceAction<Project> {
 
     }
 
-    create(item: Project): void {
-      this.store.dispatch(new ProjectAddAction(item));
+    create(project: Project): void {
+      this.store.dispatch(new ProjectAddAction(project));
     }
-    update(item: Project): void {
-      this.store.dispatch(new ProjectUpdateAction(item));
+    update(project: Project): void {
+      this.store.dispatch(new ProjectUpdateAction(project));
     }
-    list(item: Project[]): void {
-      this.store.dispatch(new ProjectLoadAction(item));
+    list(project: Project[]): void {
+      this.store.dispatch(new ProjectLoadAction(project));
     }
-    read(item: Project): void {
-      this.store.dispatch(new ProjectUpdateAction(item));
+    read(project: Project): void {
+      this.store.dispatch(new ProjectUpdateAction(project));
     }
-    delete(item: Project): void {
-      this.store.dispatch(new ProjectRemoveAction(item));
+    delete(project: Project): void {
+      this.store.dispatch(new ProjectRemoveAction(project));
     }
 }
 
@@ -38,7 +40,7 @@ class ProjectAction implements ResourceAction<Project> {
 })
 export class ProjectService extends ResourceService<Project> {
 
-  constructor(private http: HttpClient, store: Store) {
+  constructor(private http: HttpClient, public store: Store<{projects: Project[]}>) {
     super(http, 'projects', null, new ProjectAction(store));
   }
 
@@ -47,9 +49,6 @@ export class ProjectService extends ResourceService<Project> {
   }
 
   public updateTask(project: Project, task: ProjectTask): Observable<ProjectTask>{
-
-    console.log(task);
-
 
     return this.http.put<ProjectTask>(`${this.getResourceURI()}/${project.id}/tasks/${task.id}`, task);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -31,6 +31,8 @@ export class MaterialAutocompleteComponent implements OnInit {
   @Input() source: MaterialAutoCompleteOption[];
   @Input() fetch: MaterialAutocompleteFetchOption;
 
+  @Output() onSelect: EventEmitter<any> =  new EventEmitter();
+
   selected; string;
 
   options: MaterialAutoCompleteOption[] = [];
@@ -53,35 +55,45 @@ export class MaterialAutocompleteComponent implements OnInit {
     if(this.fetch){
       this.search.valueChanges.subscribe( value => {
 
-        this.http.get(this.fetch.url, {
-          params: {
-            ...this.fetch.payload,
-            q: value
-          }
-        }).subscribe( response => {
-          this.options = this.fetch.mapResult(response);
-        });
+        if(value)
+          this.http.get(this.fetch.url, {
+            params: {
+              ...this.fetch.payload,
+              q: value
+            }
+          }).subscribe( response => {
+            this.options = this.fetch.mapResult(response);
+          });
 
-      })
+      });
     }
     else{
       this.search.valueChanges.subscribe( (value: string) => {
-        this.options = this.source.filter( o => o.label.toLowerCase().indexOf(value.toLowerCase()) > -1);
+        if(this.source)
+          this.options = this.source.filter( o => o.label.toLowerCase().indexOf(value.toLowerCase()) > -1);
       })
     }
 
   }
 
   select(e: MatAutocompleteSelectedEvent): void{
-    this.selected = e.option.viewValue;
-    this.control.setValue(e.option.value);
+    if(this.control){
+      this.control.setValue(e.option.value);
+      this.selected = e.option.viewValue;
+    }
+    else{
+      this.selected = '';
+      this.search.setValue('');
+    }
+    this.onSelect.emit(e.option.value);
   }
 
 
   clearValue(): void{
     this.selected = '';
     this.search.setValue('');
-    this.control.setValue(null);
+    if(this.control)
+      this.control.setValue(null);
   }
 
 

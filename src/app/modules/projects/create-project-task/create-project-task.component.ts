@@ -93,7 +93,6 @@ export class CreateProjectTaskComponent implements OnInit {
 
   save(): void{
     if(this.form.valid){
-      console.log(this.form.value);
 
       const task: ProjectTask = (new ProjectTask).formFill(this.form);
 

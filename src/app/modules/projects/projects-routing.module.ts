@@ -7,7 +7,7 @@ import { ShowComponent } from './show/show.component';
 const routes: Routes = [
   {
     path: '',
-    component: IndexComponent
+    component: IndexComponent,
   },
   {
     path: 'create',

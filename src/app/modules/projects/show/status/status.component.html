@@ -1,0 +1,22 @@
+<br>
+<div class="table-responsive" *ngIf="project">
+    <table class="full-width table-bordered" style="min-width: 800px;">
+        <thead>
+            <th class="text-center" *ngFor="let phase of project.phases" [width]="(100 / project.phases.length) + '% !important'">{{ phase.description }}</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td *ngFor="let phase of project.phases; let i = index" style="vertical-align: top;">
+
+                    <button mat-raised-button color="primary" (click)="createTask(phase)">New Task</button>
+
+                    <hr>
+                    <br>
+                    <div>
+                        <app-project-task-card (click)="viewTask(task);" [task]="task" *ngFor="let task of phase.tasks"></app-project-task-card>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

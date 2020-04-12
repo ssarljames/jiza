@@ -16,6 +16,8 @@ export class MaterialInputComponent implements OnInit {
   @Input() icon: string;
   @Output() onEnter: EventEmitter<any>;
 
+  @Input() appearance: 'legacy' | 'standard' | 'fill' | 'outline';
+
   constructor() {
     this.onEnter = new EventEmitter();
   }
@@ -25,6 +27,8 @@ export class MaterialInputComponent implements OnInit {
     this.placeholder = this.placeholder ? this.placeholder : this.label ;
     this.label = this.label ? this.label : this.placeholder ;
     this.type = this.type ? this.type : 'text';
+
+    this.appearance = this.appearance ? this.appearance : 'standard';
 
   }
 

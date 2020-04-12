@@ -2,46 +2,17 @@
     <h1>{{ project.title }}</h1>
 
     <mat-tab-group>
-        <!-- <mat-tab label="Milestone">
-
-        </mat-tab> -->
         <mat-tab label="Status">
             <ng-template matTabContent>
-                <div class="table-responsive">
-                    <br><br>
-                    <table class="full-width table-bordered" style="min-width: 800px;">
-                        <thead>
-                            <th class="text-center" *ngFor="let phase of project.phases" [width]="(100 / project.phases.length) + '% !important'">{{ phase.description }}</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td *ngFor="let phase of project.phases; let i = index" style="vertical-align: top;">
-
-                                    <!-- <mat-card>
-                                        <mat-card-content class="text-center"> -->
-                                    <button mat-raised-button color="primary" (click)="createTask(phase)">New Task</button>
-                                    <!-- </mat-card-content>
-                                    </mat-card> -->
-                                    <hr>
-                                    <br>
-                                    <div>
-                                        <app-project-task-card (click)="viewTask(task);" [task]="task" *ngFor="let task of phase.tasks"></app-project-task-card>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <app-project-status [project]="project" (reloadProject)="fetchProject()"></app-project-status>
             </ng-template>
         </mat-tab>
-        <mat-tab label="Modules and Tasks">
-            <h3>Modules</h3>
-        </mat-tab>
         <mat-tab label="Settings">
-            <h3>Settings</h3>
+            <ng-template matTabContent>
+                <app-project-settings [project]="project"></app-project-settings>
+            </ng-template>
         </mat-tab>
     </mat-tab-group>
-
 
 
 </div>

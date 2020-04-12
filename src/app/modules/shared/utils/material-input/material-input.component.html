@@ -1,4 +1,4 @@
-<mat-form-field [class]="class">
+<mat-form-field [class]="class" [appearance]="appearance">
     <mat-label>{{ label }}</mat-label>
     <input matInput [formControl]="control" (keyup)="keyup($event)" [type]="type" autocomplete="off" [placeholder]="placeholder">
     <mat-icon matSuffix *ngIf="icon">{{ icon }}</mat-icon>

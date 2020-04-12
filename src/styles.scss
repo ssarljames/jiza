@@ -185,7 +185,8 @@
         display: inline-block !important;
     }
     
-    .list-spacer {
+    .list-spacer,
+    .spacer {
         -webkit-box-flex: 1;
         flex-grow: 1;
     }

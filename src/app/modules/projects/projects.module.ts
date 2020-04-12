@@ -13,6 +13,8 @@ import { ProjectTaskViewComponent } from './project-task-view/project-task-view.
 import { CreateProjectTaskComponent } from './create-project-task/create-project-task.component';
 
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { SettingsComponent } from './show/settings/settings.component';
+import { StatusComponent } from './show/status/status.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     ProjectPhaseCardComponent,
     ProjectTaskCardComponent,
     ProjectTaskViewComponent,
-    CreateProjectTaskComponent
+    CreateProjectTaskComponent,
+    SettingsComponent,
+    StatusComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +38,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
   entryComponents: [
     ProjectCardComponent,
     ProjectPhaseCardComponent,
-    ProjectTaskCardComponent
+    ProjectTaskCardComponent,
+    SettingsComponent
   ]
 })
 export class ProjectsModule { }

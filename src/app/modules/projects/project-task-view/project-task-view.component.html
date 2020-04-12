@@ -1,4 +1,6 @@
-<h1 mat-dialog-title>Task Detail</h1>
+<h1 mat-dialog-title>
+    Task #00{{ task.id }}
+</h1>
 <div mat-dialog-content>
     <div class="container-fluid">
 
@@ -43,7 +45,7 @@
             <div class="col-md-3">
                 Curent Status
                 <br>
-                <h2><span class="mat-toolbar mat-primary p-1"><mat-icon>place</mat-icon> {{ task.current_phase?.description }}</span> </h2>
+                <h2><span class="mat-toolbar mat-primary p-1"><mat-icon>place</mat-icon> {{ task.current_phase ? task.current_phase.description : 'Loading' }}</span> </h2>
             </div>
         </div>
 

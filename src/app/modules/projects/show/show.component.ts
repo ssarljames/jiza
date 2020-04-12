@@ -5,20 +5,23 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { Store } from '@ngrx/store';
 import { Project } from 'src/app/models/project/project';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateProjectTaskComponent } from '../create-project-task/create-project-task.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.scss']
 })
-export class ShowComponent implements OnInit {
-  project_id: string;
-  project: Project;
+export class ShowComponent implements OnInit, OnDestroy {
+    project_id: string;
+    project: Project;
 
-  isLoaded: boolean = false;
+    isLoaded: boolean = false;
+
+    subscription: Subscription;
 
   constructor(private store: Store<{projects: Project[]}>,
               private projectService: ProjectService,
@@ -27,9 +30,14 @@ export class ShowComponent implements OnInit {
 
         this.project_id = activedRoute.snapshot.params.id;
 
-        store.select('projects').subscribe(projects => {
+        this.subscription = store.select('projects').subscribe(projects => {
           this.project = projects.find(p => p.id == this.project_id);
         })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+
   }
 
   ngOnInit(): void {
@@ -43,50 +51,4 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  fetchTasks(): void{
-
-  }
-
-
-  viewTask(task: ProjectTask): void{
-    const model: MatDialogRef<ProjectTaskViewComponent> =  this.matDialog.open(ProjectTaskViewComponent, {
-      minWidth: '80vw',
-      data: {
-        task: task,
-        project: this.project
-      }
-    });
-  }
-
-  createTask(phase: ProjectPhase): void{
-    if(this.project){
-      const model: MatDialogRef<CreateProjectTaskComponent> =  this.matDialog.open(CreateProjectTaskComponent, {
-        minWidth: '80vw',
-        disableClose: true,
-        data: {
-          project: this.project,
-          phase: phase
-        }
-      });
-
-      model.afterClosed().subscribe( (task: ProjectTask) => {
-        if(task)
-          this.project.set('phases', this.project.phases.map((phase: ProjectPhase) => {
-
-            let ph = (new ProjectPhase()).fill(phase);
-
-            if(task.current_project_phase_id == phase.id){
-              ph.set('tasks', [task, ...phase.tasks]);
-              console.log('new', ph.task);
-
-            }
-
-            return ph;
-          }));
-
-
-
-      });
-    }
-  }
 }

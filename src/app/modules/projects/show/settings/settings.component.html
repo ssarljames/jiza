@@ -1,0 +1,36 @@
+<br><br>
+<div class="container-fluid" *ngIf="form">
+    <div class="row">
+        <div class="col-lg-4">
+            <app-material-input appearance="outline" class="full-width" [control]="form.controls.title" label="Project Name"></app-material-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <app-material-textarea rows="5" appearance="outline" class="full-width" [control]="form.controls.description" label="Project Description"></app-material-textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <mat-list>
+                <h3 mat-subheader>Add Member</h3>
+                <mat-list-item>
+                    <app-material-autocomplete icon="person_add" class="full-width" (onSelect)="addMember($event)" [fetch]="autoCompleteOpt" label="Search User"></app-material-autocomplete>
+                </mat-list-item>
+                <h3 mat-subheader>Members ({{ project.members.length }})</h3>
+                <mat-list-item *ngFor="let member of project.members">
+                    <mat-icon mat-list-icon>account_circle</mat-icon>
+                    <span>{{ member.fullname }}</span>
+                    <span class="text-danger ml-1" *ngIf="!member.pivot"> (Unsaved)</span>
+                    <span class="spacer"></span>
+                    <span *ngIf="member.id == project.owner.id">Owner,  </span>
+                    <span>Developer</span>
+                    <!-- <span>Joined {{ member.pivot.created_at | date }} </span> -->
+                </mat-list-item>
+            </mat-list>
+
+        </div>
+    </div>
+    <br><br>
+    <button mat-raised-button color="primary" [disabled]="form.dirty == false || isSaving" (click)="saveProject()"><mat-icon>save</mat-icon> {{ isSaving ? 'Saving...' : 'Save Changes' }}</button>
+</div>

@@ -15,6 +15,8 @@ export class MaterialTextareaComponent implements OnInit {
   @Input() rows: number;
   @Input() cols: number;
 
+  @Input() appearance: 'legacy' | 'standard' | 'fill' | 'outline';
+
   constructor() {
   }
 
@@ -24,6 +26,8 @@ export class MaterialTextareaComponent implements OnInit {
     this.label = this.label ? this.label : this.placeholder ;
     this.rows = this.rows ? this.rows : 2;
     this.cols = this.cols ? this.cols : 10;
+
+    this.appearance = this.appearance ? this.appearance : 'standard';
   }
 
 }
