@@ -23,8 +23,8 @@ class ProjectAction implements ResourceAction<Project> {
     update(project: Project): void {
       this.store.dispatch(new ProjectUpdateAction(project));
     }
-    list(project: Project[]): void {
-      this.store.dispatch(new ProjectLoadAction(project));
+    list(projects: Project[]): void {
+      this.store.dispatch(new ProjectLoadAction(projects));
     }
     read(project: Project): void {
       this.store.dispatch(new ProjectUpdateAction(project));

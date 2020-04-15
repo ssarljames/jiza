@@ -47,8 +47,6 @@ export class LoginComponent implements OnInit {
         this.matDialog.closeAll();
         this.router.navigate(['p']);
       },(e: any) => {
-        console.log(e);
-
         if(e.hasOwnProperty('statusText'))
           this.error = e.statusText;
         else if(e.hasOwnProperty('error'))

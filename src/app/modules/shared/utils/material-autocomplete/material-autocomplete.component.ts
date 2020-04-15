@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { startWith, debounceTime, switchMap } from 'rxjs/operators';
 
 
 export interface MaterialAutoCompleteOption {
@@ -30,6 +31,7 @@ export class MaterialAutocompleteComponent implements OnInit {
   @Input() icon: string;
   @Input() source: MaterialAutoCompleteOption[];
   @Input() fetch: MaterialAutocompleteFetchOption;
+  @Input() autoActiveFirst: boolean;
 
   @Output() onSelect: EventEmitter<any> =  new EventEmitter();
 
@@ -38,6 +40,8 @@ export class MaterialAutocompleteComponent implements OnInit {
   options: MaterialAutoCompleteOption[] = [];
 
   search: FormControl;
+
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient) {
     this.search = new FormControl('');
@@ -53,18 +57,24 @@ export class MaterialAutocompleteComponent implements OnInit {
     this.label = this.label ? this.label : this.placeholder ;
 
     if(this.fetch){
-      this.search.valueChanges.subscribe( value => {
 
-        if(value)
-          this.http.get(this.fetch.url, {
-            params: {
-              ...this.fetch.payload,
-              q: value
-            }
-          }).subscribe( response => {
-            this.options = this.fetch.mapResult(response);
-          });
+      this.search.valueChanges.pipe(
+        startWith(''),
+        debounceTime(300),
+        switchMap(value => {
+          if (value !== '' && typeof value === typeof '')
+            return this.lookup(value);
 
+          else
+            return of(null);
+
+        }
+      )).subscribe( response => {
+        if(response)
+          this.options = this.fetch.mapResult(response);
+        else
+          this.options = [];
+        this.isLoading = false;
       });
     }
     else{
@@ -74,6 +84,17 @@ export class MaterialAutocompleteComponent implements OnInit {
       })
     }
 
+  }
+
+  /** Http fetch */
+  lookup(value: string): Observable<any>{
+    this.isLoading = true;
+    return this.http.get(this.fetch.url, {
+      params: {
+        ...this.fetch.payload,
+        q: value
+      }
+    });
   }
 
   select(e: MatAutocompleteSelectedEvent): void{
@@ -86,6 +107,7 @@ export class MaterialAutocompleteComponent implements OnInit {
       this.search.setValue('');
     }
     this.onSelect.emit(e.option.value);
+    this.options = [];
   }
 
 

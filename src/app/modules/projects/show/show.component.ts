@@ -1,5 +1,5 @@
 import { ProjectPhase } from 'src/app/models/project-phase/project-phase';
-import { ProjectTaskViewComponent } from './../project-task-view/project-task-view.component';
+import { ProjectTaskViewComponent } from './project-task-view/project-task-view.component';
 import { ProjectTask } from './../../../models/project-task/project-task';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/services/project/project.service';
@@ -47,7 +47,6 @@ export class ShowComponent implements OnInit, OnDestroy {
   fetchProject(): void{
     this.projectService.read(this.project_id).subscribe((p) => {
       this.isLoaded = true;
-      this.project = (new Project()).fill(p);
     });
   }
 

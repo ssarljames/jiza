@@ -9,11 +9,12 @@
 
     <input matInput *ngIf="!selected" type="text" autocomplete="off" [formControl]="search" [placeholder]="placeholder" [matAutocomplete]="auto">
 
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
-
+    <mat-autocomplete [autoActiveFirstOption]="autoActiveFirst" #auto="matAutocomplete" (optionSelected)="select($event)">
+        <mat-option *ngIf="options.length == 0 && search.value && isLoading == false" [disabled]="true">No result for <strong>{{ search.value }}</strong></mat-option>
         <mat-option *ngFor="let option of options" [value]="option.value">
             {{ option.label }}
         </mat-option>
+        <mat-option *ngIf="isLoading" [disabled]="true">Searching for <strong>{{ search.value }}</strong>...</mat-option>
     </mat-autocomplete>
     <mat-icon matSuffix *ngIf="icon">{{ icon }}</mat-icon>
     <mat-error *ngIf="control && control.errors">{{ control.errors.required ? 'Required' : control.errors[0] }}</mat-error>

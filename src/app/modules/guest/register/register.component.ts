@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
 
       const user = localStorage.getItem('previous_registered_user');
       if(user)
-        this.prevRegisteredUser = new User().fill(JSON.parse(user));
+        this.prevRegisteredUser = User.newInstance(JSON.parse(user));
 
     }
     catch(e){

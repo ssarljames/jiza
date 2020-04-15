@@ -53,6 +53,8 @@ export class ResourceService<T extends Model> {
       .post<T>(`${this.host}/${this.resource}`, item)
       .pipe(map((item:T, index) => {
 
+        item = Model.newInstance(item);
+
         if(this.action)
           this.action.create(item);
 
@@ -66,6 +68,8 @@ export class ResourceService<T extends Model> {
     return this.httpClient.put<T>(`${this.host}/${this.resource}/${id}`, item)
               .pipe(map((item:T, index) => {
 
+                item = Model.newInstance(item);
+
                 if(this.action)
                   this.action.update(item);
 
@@ -75,17 +79,6 @@ export class ResourceService<T extends Model> {
   }
 
 
-  // public update(item: any): Observable<any> {
-  //   const isFormData = (item instanceof FormData);
-  //   const id = isFormData ? item.get('id') : item.id;
-
-  //   if(isFormData)
-  //     item.append('_method', 'PUT');
-  //   else
-  //     item._method = 'PUT';
-
-  //   return this.httpClient.post<any>(`${this.host}/${this.resource}/${id}`, item );
-  // }
 
   public save(item: any): Observable<any>{
     if( ((item instanceof FormData)  &&  item.get('id').toString() == "undefined") || (!(item instanceof FormData) && !item.id))
@@ -97,6 +90,8 @@ export class ResourceService<T extends Model> {
   public read(id: any, option: {} = {}): Observable<T> {
     return this.httpClient.get<T>(`${this.host}/${this.resource}/${id}`, option)
                   .pipe(map((item:T, index) => {
+
+                    item = Model.newInstance(item);
 
                     if(this.action)
                       this.action.update(item);
@@ -110,6 +105,8 @@ export class ResourceService<T extends Model> {
       .get<T[]>(`${this.host}/${this.resource}`, queryOptions)
       .pipe(map((response: any) => this.convertData(response)))
       .pipe(map((item:T[]) => {
+
+        item = Model.collection(item);
 
         if(this.action)
           this.action.list(item);
@@ -136,14 +133,14 @@ export class ResourceService<T extends Model> {
       }
     }
 
-    const data = response.data.map( d => {
-      return (new Model()).fill(d);
-    })
+    // const data = response.data.map( d => {
+    //   return Model.newInstance(d);
+    // })
 
     // console.log(data);
 
 
-    return data;
+    return response.data;
   }
 
   public getMeta():any{

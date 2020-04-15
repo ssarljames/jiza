@@ -15,8 +15,9 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: ShowComponent
-  }
+    component: ShowComponent,
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

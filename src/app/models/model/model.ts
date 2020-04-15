@@ -9,19 +9,34 @@ export class Model {
 
   public _method?: string;
 
-  public fill?(obj: any): any{
+  public _removing: boolean;
 
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        this[key] = obj[key];
+  public static newInstance(obj: any): any{
+
+    const model = new Model();
+
+    if(obj)
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          model[key] = obj[key];
+        }
       }
-    }
 
-    return this;
+    return model;
   }
 
+  public static collection(obj: any[]): any[]{
+    let arr = [];
 
-  public formFill?(form: FormGroup): any{
+    if(obj && obj.length > 0)
+      arr = obj.map( (o): any => {
+        return Model.newInstance(o);
+      })
+
+    return arr;
+  }
+
+  public formFill(form: FormGroup): any{
 
     for (const key in form.controls) {
       if (form.controls.hasOwnProperty(key)) {
@@ -32,7 +47,7 @@ export class Model {
     return this;
   }
 
-  public set?(name: string, value: any): any{
+  public set(name: string, value: any): any{
     this[name] = value;
     return this;
   }

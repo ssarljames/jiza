@@ -1,9 +1,9 @@
-import { ProjectTask } from './../../../models/project-task/project-task';
+import { ProjectTask } from '../../../../models/project-task/project-task';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { Project } from 'src/app/models/project/project';
-import { CreateProjectTaskComponent } from '../create-project-task/create-project-task.component';
+import { CreateProjectTaskComponent } from '../../create-project-task/create-project-task.component';
 
 export interface TaskViewDialogData{
   task: ProjectTask;
@@ -35,7 +35,7 @@ export class ProjectTaskViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectService.getTask((new Project()).set('id', this.task.project_id), this.task).subscribe( task => {
-      this.task = (new ProjectTask()).fill(task);
+      this.task = task;
       this.loaded = true;
 
     });

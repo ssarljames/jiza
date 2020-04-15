@@ -4,4 +4,6 @@ export class ProjectPhase extends Model{
   description: string;
 
   tasks: ProjectTask[];
+
+  order: number;
 }

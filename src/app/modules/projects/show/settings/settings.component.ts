@@ -6,7 +6,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { MaterialAutocompleteFetchOption, MaterialAutoCompleteOption } from './../../../shared/utils/material-autocomplete/material-autocomplete.component';
 import { FormControl, Validators } from '@angular/forms';
 import { FormGroup } from 'src/app/core/utils/form-group/form-group';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Project } from 'src/app/models/project/project';
 import { ProjectService } from 'src/app/services/project/project.service';
 
@@ -15,9 +15,11 @@ import { ProjectService } from 'src/app/services/project/project.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() project: Project;
+
+  _project: Project;
 
   form: FormGroup;
 
@@ -33,21 +35,29 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   }
   ngOnDestroy(): void {
-    console.log('settings destryoed');
 
   }
 
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.project)
+      this._project = Project.newInstance(changes.project.currentValue);
+  }
+
   ngOnInit(): void {
+
+    this._project = Project.newInstance(this.project);
+
     this.form = new FormGroup({
-      title: new FormControl(this.project.title, Validators.required),
-      description: new FormControl(this.project.description)
+      title: new FormControl(this._project.title, Validators.required),
+      description: new FormControl(this._project.description)
     });
 
 
     this.autoCompleteOpt = {
       url: this.userService.getResourceURI(),
       payload: {
-        not_in_project_id: this.project.id
+        not_in_project_id: this._project.id
       },
       mapResult: (result): MaterialAutoCompleteOption[] => {
 
@@ -68,11 +78,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   addMember(user: ProjectMember): void{
-    console.log(user);
 
-    const members: ProjectMember[] = this.project.members.filter(m => m.id != user.id);
+    this._project.members = this._project.members.filter(m => m.id != user.id);
 
-    this.project.members = [user, ...members];
+    this._project.members.push(user);
 
     this.form.markAsDirty();
   }
@@ -80,11 +89,20 @@ export class SettingsComponent implements OnInit, OnDestroy {
   saveProject(): void{
     if(this.form.valid){
 
-      let p: any = (new Project()).formFill(this.form).set('id', this.project.id);
+      let p: any = (new Project()).formFill(this.form).set('id', this._project.id);
 
-      const new_members: ProjectMember[] = this.project.members.filter(m => !m.pivot);
+      const new_members: ProjectMember[] = this._project.members.filter(m => !m.pivot);
       if(new_members.length > 0)
         p.new_members = new_members.map(m => {
+          return {
+            user_id: m.id
+          }
+        });
+
+
+      const members_to_remove: ProjectMember[] = this._project.members.filter(m => m._removing);
+      if(members_to_remove.length > 0)
+        p.members_to_remove = members_to_remove.map(m => {
           return {
             user_id: m.id
           }
@@ -93,15 +111,14 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.isSaving = true;
 
       this.projectService.update(p).subscribe(p => {
-        this.project = p;
+
         this.isSaving = false;
-        this.modalService.toast('Project saved', 'Success', 'success');
+        this.modalService.toast('Project changes saved succesfully', 'Success', 'success');
 
         this.form.markAsPristine();
 
       }, e => {
         this.form.fillErrors(e);
-        console.log(e);
 
         this.isSaving = false;
 
@@ -113,6 +130,27 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
     else
       this.modalService.toast('Check for errors', 'Oops');
+  }
+
+  removeMember(member: ProjectMember): void{
+    if(!member.pivot)
+        this._project.members = this._project.members.filter(m => m.id != member.id);
+    else
+        this._project.members = this._project.members.map(m =>{
+
+          const mem = ProjectMember.newInstance(m);
+
+          if(mem.id == member.id){
+            mem.set('_removing', true);
+            this.form.markAsDirty();
+          }
+
+          return mem;
+        });
+  }
+
+  undoRemoveMember(member: ProjectMember): void{
+    member.set('_removing', false);
   }
 
 }

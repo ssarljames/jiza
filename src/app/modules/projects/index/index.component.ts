@@ -29,7 +29,7 @@ export class IndexComponent implements OnInit {
               private router: Router) {
 
     store.select('projects').subscribe(projects => {
-      this.projects = projects.map( project => (new Project()).fill(project));
+      this.projects = projects;
     });
 
     this.currentUser = authService.user;
@@ -53,7 +53,6 @@ export class IndexComponent implements OnInit {
   }
 
   sort(e): void{
-    console.log(e);
 
   }
 
