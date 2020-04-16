@@ -56,7 +56,7 @@ export class CreateProjectTaskComponent implements OnInit {
     this.form = new FormGroup({
       id: new FormControl(task ? task.id : null),
       title: new FormControl( task ? task.title : '', Validators.required),
-      description: new FormControl(task ? task.description :'<h3>Provide task description here...</h3>'),
+      description: new FormControl(task ? task.description :'<h3>No task description provided...</h3>'),
       user_id: new FormControl(task ? task.user_id : null),
       project_module_id: new FormControl(task ? task.project_module_id : null),
       type: new FormControl(task ? task.type : 1),

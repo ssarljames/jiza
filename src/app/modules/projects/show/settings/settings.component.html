@@ -44,15 +44,17 @@
         <div class="col-lg-6">
             <mat-list>
                 <h3 mat-subheader>Phases
-                    <button mat-icon-button color="primary">
+                    <button mat-icon-button color="primary" (click)="createPhase()">
                         <mat-icon>add</mat-icon>
                     </button>
                 </h3>
                 <mat-list-item *ngFor="let phase of (_project.phases | sort: 'order'); let i = index">
-                    <mat-icon matListIcon>library_books</mat-icon>
-                    {{ phase.description }}
+                    <!-- <mat-icon matListIcon>library_books</mat-icon> -->
+                    {{ i + 1 }}.
+                    {{ phase.description | titlecase }}
+                    <span class="text-muted" *ngIf="!phase.id">(Unsaved)</span>
                     <span class="spacer"></span>
-                    <button mat-icon-button>
+                    <button mat-icon-button *ngIf="i > 0 && i < _project.phases.length - 1" (click)="editPhase(phase)">
                       <mat-icon>edit</mat-icon>
                     </button>
                 </mat-list-item>

@@ -1,16 +1,16 @@
 <br>
-<div class="table-responsive" *ngIf="project">
-    <table class="full-width table-bordered" style="min-width: 800px;">
+<div class="w-100" style="overflow-x: scroll;" *ngIf="project">
+    <table class="table-bordered" style="height: 100% !important;min-width: 100%;">
         <thead>
-            <th class="text-center" *ngFor="let phase of project.phases" [width]="(100 / project.phases.length) + '% !important'">{{ phase.description }}</th>
+            <th class="text-center" *ngFor="let phase of project.phases" [width]="(100/project.phases.length) + '% !important'">{{ phase.description }} <span *ngIf="phase.tasks && phase.tasks.length > 0">({{ phase.tasks.length }})</span></th>
         </thead>
         <tbody>
             <tr>
                 <td *ngFor="let phase of project.phases; let i = index" style="vertical-align: top;">
 
-                    <button mat-raised-button color="primary" (click)="createTask(phase)">New Task</button>
+                    <button mat-raised-button color="primary" *ngIf="i == 0" (click)="createTask(phase)">New Task</button>
 
-                    <hr>
+                    <hr  *ngIf="i == 0" >
                     <br>
                     <div>
                         <app-project-task-card (click)="viewTask(task);" [task]="task" *ngFor="let task of phase.tasks"></app-project-task-card>
@@ -20,3 +20,27 @@
         </tbody>
     </table>
 </div>
+
+<!-- <div style="min-width: 100vh; overflow-x: scroll;display: flex">
+
+  <div *ngFor="let phase of project.phases; let i = index" class="phase-card">
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ phase.description }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="min-height: 300px;">
+
+        <button mat-raised-button color="primary" *ngIf="i == 0" (click)="createTask(phase)">New Task</button>
+
+        <hr  *ngIf="i == 0" >
+        <br>
+        <div>
+            <app-project-task-card (click)="viewTask(task);" [task]="task" *ngFor="let task of phase.tasks"></app-project-task-card>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+    </div>
+</div> -->

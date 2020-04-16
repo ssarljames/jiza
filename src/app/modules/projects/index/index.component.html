@@ -27,7 +27,7 @@
                     </div>
                 </mat-card-header>
                 <mat-card-content>
-                    <div class="table-responsive" *ngIf="tableMode">
+                    <div class="table-responsive" *ngIf="tableMode" matRipple [matRippleUnbounded]="true" [matRippleRadius]="100">
                         <table class="table" style="min-width: 700px;">
                             <thead>
                                 <th>Title</th>
@@ -36,7 +36,7 @@
                                 <th>Created</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let project of projects">
+                                <tr *ngFor="let project of projects" (click)="viewProject(project)" >
                                     <td>{{ project.title }}</td>
                                     <td>{{ project.owner.fullname }}</td>
                                     <td>

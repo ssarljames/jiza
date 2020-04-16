@@ -15,6 +15,7 @@ import { CreateProjectTaskComponent } from './create-project-task/create-project
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SettingsComponent } from './show/settings/settings.component';
 import { StatusComponent } from './show/status/status.component';
+import { CreateProjectPhaseComponent } from './show/settings/create-project-phase/create-project-phase.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { StatusComponent } from './show/status/status.component';
     ProjectTaskViewComponent,
     CreateProjectTaskComponent,
     SettingsComponent,
-    StatusComponent
+    StatusComponent,
+    CreateProjectPhaseComponent
   ],
   imports: [
     CommonModule,

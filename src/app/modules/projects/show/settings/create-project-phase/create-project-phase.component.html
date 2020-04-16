@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>
+    New Phase
+</h1>
+<div mat-dialog-content>
+    <div class="container">
+        <app-material-input class="full-width" [control]="form.controls.description" label="Description" icon="bubble_chart"></app-material-input>
+        <br>
+        <app-material-select class="full-width" [control]="form.controls.after" label="Place after" [options]="phases" [required]="true"></app-material-select>
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="save()" [disabled]="form.invalid">Create</button>
+    <button mat-button (click)="close()">Close</button>
+</div>

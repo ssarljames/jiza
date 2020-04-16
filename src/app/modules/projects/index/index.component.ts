@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class IndexComponent implements OnInit {
 
-  tableMode: boolean = false;
+  tableMode: boolean = true;
 
   projects: Project[] = [];
 
@@ -64,7 +64,7 @@ export class IndexComponent implements OnInit {
   viewProject(project: Project): void{
     setTimeout(() => {
       this.router.navigate(['/p/projects', project.id]);
-    }, 500);
+    }, 100);
   }
 
 }

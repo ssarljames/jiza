@@ -9,6 +9,9 @@ import { FormGroup } from 'src/app/core/utils/form-group/form-group';
 import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Project } from 'src/app/models/project/project';
 import { ProjectService } from 'src/app/services/project/project.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CreateProjectPhaseComponent } from './create-project-phase/create-project-phase.component';
+import { ProjectPhase } from 'src/app/models/project-phase/project-phase';
 
 @Component({
   selector: 'app-project-settings',
@@ -30,7 +33,8 @@ export class SettingsComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private userService: UserService,
               private projectService: ProjectService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private matDialog: MatDialog) {
     this.searchUser = new FormControl('');
 
   }
@@ -108,6 +112,12 @@ export class SettingsComponent implements OnInit, OnDestroy, OnChanges {
           }
         });
 
+
+      const new_phases: ProjectPhase[] = this._project.phases.filter(p => !p.id);
+      if(new_phases){
+        p.new_phases = new_phases;
+      }
+
       this.isSaving = true;
 
       this.projectService.update(p).subscribe(p => {
@@ -151,6 +161,59 @@ export class SettingsComponent implements OnInit, OnDestroy, OnChanges {
 
   undoRemoveMember(member: ProjectMember): void{
     member.set('_removing', false);
+  }
+
+  createPhase(): void{
+    const modal: MatDialogRef<CreateProjectPhaseComponent> = this.matDialog.open(CreateProjectPhaseComponent, {
+      data: {
+        project: this._project
+      },
+      disableClose: true
+    });
+
+    modal.afterClosed().subscribe((phase: ProjectPhase) => {
+      if(phase){
+        this._project.phases = this._project.phases.map( (p: ProjectPhase) => {
+
+          const ph = ProjectPhase.newInstance(p);
+
+          if(ph.order >= phase.order)
+            ph.order++;
+
+          return ph;
+        });
+
+        this._project.phases.push(phase);
+
+        this.form.markAsDirty();
+      }
+    });
+  }
+
+  editPhase(phase: ProjectPhase): void{
+    const modal: MatDialogRef<CreateProjectPhaseComponent> = this.matDialog.open(CreateProjectPhaseComponent, {
+      data: {
+        project: this._project,
+        phase: phase
+      },
+      disableClose: true
+    });
+
+    modal.afterClosed().subscribe((phase: ProjectPhase) => {
+      if(phase){
+        this._project.phases = this._project.phases.map( (p: ProjectPhase) => {
+
+          const ph = ProjectPhase.newInstance(p);
+
+          if(ph.order >= phase.order)
+            ph.order++;
+
+          return ph;
+        });
+
+        this.form.markAsDirty();
+      }
+    });
   }
 
 }
