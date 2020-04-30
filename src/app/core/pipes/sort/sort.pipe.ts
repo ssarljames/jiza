@@ -48,6 +48,8 @@ export class SortPipe implements PipeTransform {
 
       });
 
+      // console.log(retVal);
+
 
     return retVal;
   }

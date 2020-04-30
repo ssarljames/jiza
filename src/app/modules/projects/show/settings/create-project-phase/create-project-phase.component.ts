@@ -23,27 +23,34 @@ export class CreateProjectPhaseComponent implements OnInit {
 
   phases: MaterialSelectOption[];
 
+  phase: ProjectPhase;
+
   constructor(private modal: MatDialogRef<CreateProjectPhaseComponent>,
               @Inject(MAT_DIALOG_DATA) private data: CreateProjectPhaseDialogData) {
 
 
-    this.phases = this.data.project.phases.filter( (phase: ProjectPhase) => {
-      return phase.order < this.data.project.phases.length;
-    }).map( (phase: ProjectPhase): MaterialSelectOption => {
-      return {
-        label: phase.description,
-        value: phase.order
-      }
-    });
+    this.phases = this.data.project.phases
+                      .filter( (phase: ProjectPhase) => {
+                        return phase.order < this.data.project.phases.length;
+                      })
+                      .sort((a, b) => a.order - b.order)
+                      .map( (phase: ProjectPhase): MaterialSelectOption => {
+                        return {
+                          label: phase.description,
+                          value: phase.order
+                        }
+                      });
+
+    this.phase = this.data.phase;
 
     this.form = new FormGroup({
-      description: new FormControl(this.data.phase
-                                            ? this.data.phase.description
+      description: new FormControl(this.phase
+                                            ? this.phase.description
                                             : '',
 
                                             Validators.required),
-      after: new FormControl(this.data.phase
-                                ? this.data.phase.order - 1
+      after: new FormControl(this.phase
+                                ? this.phase.order - 1
                                 : this.phases[this.phases.length - 1].value,
 
                                 Validators.required)
@@ -56,16 +63,17 @@ export class CreateProjectPhaseComponent implements OnInit {
 
   save(): void{
 
-    // const search = this.phases.find( p => {
-    //   return p.label.toLowerCase() === this.form.controls.description.value.toString().toLowerCase();
-    // })
+    const search = this.phases.find( p => {
+      return p.label.toLowerCase() === this.form.controls.description.value.toString().toLowerCase();
+    })
 
-    // if(search){
-    //   this.form.controls.description.setErrors(['Description already exist']);
-    //   return;
-    // }
+    if(search){
+      this.form.controls.description.setErrors(['Description already exist']);
+      return;
+    }
 
     this.modal.close(ProjectPhase.newInstance({
+      id: this.phase ? this.phase.id : null,
       description: this.form.controls.description.value,
       order: this.form.controls.after.value + 1
     }));

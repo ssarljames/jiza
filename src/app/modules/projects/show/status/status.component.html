@@ -8,9 +8,9 @@
             <tr>
                 <td *ngFor="let phase of project.phases; let i = index" style="vertical-align: top;">
 
-                    <button mat-raised-button color="primary" *ngIf="i == 0" (click)="createTask(phase)">New Task</button>
+                    <button mat-raised-button color="primary"  (click)="createTask(phase)">New Task</button>
 
-                    <hr  *ngIf="i == 0" >
+                    <hr>
                     <br>
                     <div>
                         <app-project-task-card (click)="viewTask(task);" [task]="task" *ngFor="let task of phase.tasks"></app-project-task-card>

@@ -32,6 +32,8 @@ export class ShowComponent implements OnInit, OnDestroy {
 
         this.subscription = store.select('projects').subscribe(projects => {
           this.project = projects.find(p => p.id == this.project_id);
+          console.log('project updated');
+
         })
   }
 

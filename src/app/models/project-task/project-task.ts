@@ -1,6 +1,7 @@
 import { ProjectPhase } from 'src/app/models/project-phase/project-phase';
 import { User } from 'src/app/models/user/user';
 import { Model } from './../model/model';
+import { Project } from '../project/project';
 
 export enum ProjectTaskType {
   DEFAULT = 1,
@@ -20,6 +21,8 @@ export class ProjectTask extends Model {
 
   user: User;
   current_phase: ProjectPhase;
+
+  project: Project;
 
   type: ProjectTaskType;
 

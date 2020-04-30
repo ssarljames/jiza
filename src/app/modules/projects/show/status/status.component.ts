@@ -95,23 +95,6 @@ export class StatusComponent implements OnInit, OnDestroy, OnChanges{
           phase: phase
         }
       });
-
-      modal.afterClosed().subscribe( (task: ProjectTask) => {
-        if(task)
-          this.project.phases =this.project.phases.map((phase: ProjectPhase) => {
-
-            let ph: ProjectPhase = ProjectPhase.newInstance(phase);
-
-            if(task.current_project_phase_id == phase.id)
-              ph.tasks = [ task, ...ph.tasks ];
-
-
-            return ph;
-          });
-
-
-
-      });
     }
   }
 }

@@ -63,7 +63,7 @@ export class CreateProjectTaskComponent implements OnInit {
       current_project_phase_id: new FormControl(task ? task.current_project_phase_id : data.phase.id)
     });
 
-    this.project = this.data.project;
+    this.project = Project.newInstance(this.data.project);
 
 
 
@@ -74,13 +74,13 @@ export class CreateProjectTaskComponent implements OnInit {
       }
     });
 
+
     this.phases = this.project.phases.map( (phase: ProjectPhase): MaterialSelectOption => {
       return {
         value: phase.id,
         label: phase.description
       }
-    })
-
+    });
   }
 
   ngOnInit(): void {

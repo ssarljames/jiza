@@ -40,17 +40,67 @@ class ProjectAction implements ResourceAction<Project> {
 })
 export class ProjectService extends ResourceService<Project> {
 
+  private updated: boolean = false;
+
   constructor(private http: HttpClient, public store: Store<{projects: Project[]}>) {
     super(http, 'projects', null, new ProjectAction(store));
   }
 
   public createTask(project: Project, task: ProjectTask): Observable<ProjectTask>{
-    return this.http.post<ProjectTask>(`${this.getResourceURI()}/${project.id}/tasks`, task);
+    return this.http.post<ProjectTask>(`${this.getResourceURI()}/${project.id}/tasks`, task)
+                .pipe(map(task => {
+
+
+                  const p: Project = Project.newInstance(project);
+
+                  p.phases = p.phases.map((phase: ProjectPhase): ProjectPhase => {
+
+                    if(phase.id == task.current_project_phase_id){
+                      const ph: ProjectPhase = ProjectPhase.newInstance(phase);
+                      ph.tasks = [...ph.tasks, task];
+                      return ph;
+                    }
+
+                    return phase;
+
+                  });
+
+                  this.store.dispatch(new ProjectUpdateAction(p));
+
+
+                  return task;
+                }));
   }
 
   public updateTask(project: Project, task: ProjectTask): Observable<ProjectTask>{
 
-    return this.http.put<ProjectTask>(`${this.getResourceURI()}/${project.id}/tasks/${task.id}`, task);
+    return this.http.put<ProjectTask>(`${this.getResourceURI()}/${project.id}/tasks/${task.id}`, task)
+                  .pipe(map(task => {
+
+
+                    const p: Project = Project.newInstance(project);
+
+                    p.phases = p.phases.map((phase: ProjectPhase): ProjectPhase => {
+
+
+                      const ph: ProjectPhase = ProjectPhase.newInstance(phase);
+
+                      ph.tasks = ph.tasks.filter( ptask => ptask.id != task.id);
+
+                      if(ph.id == task.current_project_phase_id){
+                        ph.tasks = [...ph.tasks, task];
+                        return ph;
+                      }
+
+                      return ph;
+
+                    });
+
+                    this.store.dispatch(new ProjectUpdateAction(p));
+
+
+                    return task;
+                  }));
   }
 
   public getTask(project: Project, task: ProjectTask): Observable<ProjectTask> {

@@ -190,11 +190,11 @@ export class SettingsComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  editPhase(phase: ProjectPhase): void{
+  editPhase(p_: ProjectPhase): void{
     const modal: MatDialogRef<CreateProjectPhaseComponent> = this.matDialog.open(CreateProjectPhaseComponent, {
       data: {
         project: this._project,
-        phase: phase
+        phase: p_
       },
       disableClose: true
     });
@@ -207,6 +207,9 @@ export class SettingsComponent implements OnInit, OnDestroy, OnChanges {
 
           if(ph.order >= phase.order)
             ph.order++;
+
+          if(p_.id == ph.id)
+            return phase;
 
           return ph;
         });

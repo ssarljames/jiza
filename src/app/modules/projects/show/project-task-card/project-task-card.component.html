@@ -1,11 +1,11 @@
 <mat-card matRipple>
     <mat-card-header>
-        <div mat-card-avatar class="mr-2">
+        <!-- <div mat-card-avatar class="mr-2">
             <img src="/assets/images/profile.png" class="full-width" alt="">
-        </div>
+        </div> -->
         <mat-card-title>{{ task.title }}</mat-card-title>
         <mat-card-subtitle *ngIf="task.user">{{ task.user?.fullname }}</mat-card-subtitle>
-        <mat-card-subtitle *ngIf="!task.user">None</mat-card-subtitle>
+        <!-- <mat-card-subtitle *ngIf="!task.user">None</mat-card-subtitle> -->
         <div class="spacer"></div>
         <div>
             <span>#00{{ task.id }}</span> <br>
