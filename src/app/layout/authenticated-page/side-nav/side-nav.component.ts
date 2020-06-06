@@ -16,7 +16,7 @@ export class SideNavComponent implements OnInit {
 
   navItems: NavItem[] = [
     {
-      displayName: 'Darshboard',
+      displayName: 'Dashboard',
       route: '/p/',
       iconName: 'dashboard',
       allowed_roles: []
